@@ -10,5 +10,6 @@ Sbui plugin pmmp for skyblock plugin
 ##u need FromAPI for load it
 ##fromAPI plugin link
 ##https://poggit.pmmp.io/r/45771/FormAPI_dev-8.phar
+
 ## sbui plugin link
 ##https://poggit.pmmp.io/p/SkyBlockGUI/1.0.0#
