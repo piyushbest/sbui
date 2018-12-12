@@ -1,2 +1,14 @@
 # sbui
-Sbui plugin pmmp for skyblock plugin 
+Sbui plugin pmmp for skyblock plugin
+##its plugin for skybock 
+##u get use it
+
+
+
+##u want more options just discord me
+##piyushbest#7370
+##u need FromAPI for load it
+##fromAPI plugin link
+##https://poggit.pmmp.io/r/45771/FormAPI_dev-8.phar
+## sbui plugin link
+##coming soon
