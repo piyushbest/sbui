@@ -1,7 +1,9 @@
-# sbui
+# information
 Sbui plugin pmmp for skyblock plugin
-##its plugin for skybock 
-##u get use it
+
+its plugin for skybock 
+
+u get use it
 
 
 
