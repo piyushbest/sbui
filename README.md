@@ -11,4 +11,4 @@ Sbui plugin pmmp for skyblock plugin
 ##fromAPI plugin link
 ##https://poggit.pmmp.io/r/45771/FormAPI_dev-8.phar
 ## sbui plugin link
-##coming soon
+##https://poggit.pmmp.io/p/SkyBlockGUI/1.0.0#
