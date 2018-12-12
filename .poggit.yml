@@ -3,5 +3,5 @@ branches:
 - master
 projects:
   sbui:
-    path: ""
+    path: "icon/"
 ...
