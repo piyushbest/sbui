@@ -33,42 +33,45 @@ class Main extends PluginBase implements Listener{
 			$form = $formapi->createSimpleForm(function (Player $event, array $data){
 				$player = $event->getPlayer();
 				if(isset($data[0])){
-					switch($data[0]){							
-						case 0:
+					switch($data[0]){	
+                        case 0:
+                        break;
+						
+						case 1:
 							$command = "sb auto";
 							$this->getServer()->getCommandMap()->dispatch($player, $command);
 						break;
 						
-						case 1:
+						case 2:
 							$command = "sb create";
 							$this->getServer()->getCommandMap()->dispatch($player, $command);
 						break;
               
-                        case 2:
+                        case 3:
 							$this->addForm($player);
 						break;
 							
-						case 3:
+						case 4;
 							$this->removeForm($player);
 						break;
 							
-						case 4:
+						case 5;
 							$this->homeForm($player);
 						break;
 							
-						case 5:
+						case 6;:
 							$this->warpForm($player);
 						break;
 							
-						case 6:
+						case 7:
 							$this->giveForm($player);
 						break;
 							
-						case 7:
+						case 8;
 							$command = "spawn";
 							$this->getServer()->getCommandMap()->dispatch($player, $command);
 							
-                        case 8:
+                        case 9;
 							$command = "is setspawn";
 							$this->getServer()->getCommandMap()->dispatch($player, $command);
 						break;
