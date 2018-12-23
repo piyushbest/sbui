@@ -35,7 +35,7 @@ class Main extends PluginBase implements Listener{
 				if(isset($data[0])){
 					switch($data[0]){	
                         case 0:
-                        break;
+                                                break;
 						
 						case 1:
 							$command = "sb auto";
