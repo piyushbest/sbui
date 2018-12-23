@@ -59,7 +59,7 @@ class Main extends PluginBase implements Listener{
 							$this->homeForm($player);
 						break;
 							
-						case 6;:
+						case 6;
 							$this->warpForm($player);
 						break;
 							
