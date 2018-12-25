@@ -20,8 +20,6 @@ class Main extends PluginBase implements Listener{
 		$player = $sender->getPlayer();
 		switch($cmd->getName()){
 			case "sbui":
-			case "is":
-			case "sb":
 			$this->mainForm($player);
         }
         return true;
