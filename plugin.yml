@@ -3,7 +3,6 @@ main: SkyBlockUI\Main
 version: 1.0.2
 api: 3.0.0
 author: piyushbest
-
 commands:
  skyblockui:
   description: "Open SkyBlock MENU"
