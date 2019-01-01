@@ -1,1 +1,18 @@
+title: §l§cNether§4Network §r§lSkyBlock
+exit-button: §l§cExit
+content: Manage easily your island!
+create-content: Choose a preset to use to create your SkyBlock Isle.
 
+#Main form config
+create-island: Create an island
+join-island: Join your island
+see-category: See your category
+see-blocks: See blocks placed
+disband-island: Disband your island
+
+#Create form config
+basic: Basic
+lost: Lost
+op: OP
+palm: Palm
+shelly: Shelly
