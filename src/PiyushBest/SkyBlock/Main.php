@@ -1,171 +1,125 @@
 <?php
-
-namespace PiyushBest\SkyBlock;
-
+namespace SkyBlockUI;
+use pocketmine\Server;
+use pocketmine\Player;
+use pocketmine\plugin\PluginBase;
+use jojoe77777\FormAPI\CustomForm;
+use jojoe77777\FormAPI\ModalForm;
+use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\command\ConsoleCommandSender;
 use pocketmine\event\Listener;
-use pocketmine\{command\ConsoleCommandSender, Server, Player, utils\TextFormat};
-use pocketmine\plugin\PluginBase;
-use jojoe77777\FormAPI;
+use pocketmine\event\server\ServerCommandEvent;
 
 class Main extends PluginBase implements Listener{
-	
-	public function onEnable(){
-		$this->getServer()->getLogger()->Info("§bSkyBlockGUI - Enabled!");
-		$this->getServer()->getPluginManager()->registerEvents($this, $this);
-	}
-	
-	public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool {
-		$player = $sender->getPlayer();
-		switch($cmd->getName()){
-			case "sbui":
-			$this->mainForm($player);
+
+    public function onEnable(): void{
+        $this->getServer()->getPluginManager()->registerEvents(($this), $this);
+        $this->getLogger()->info("Plugin Enabled By LightSwagitzHD");
+        $this->getLogger()->info("Edit the config.yml to the plugin_data");
+    }
+
+    public function onDisable(): void{
+        $this->getLogger()->info("Plugin Disabled By LightSwagitzHD");
+    }
+
+    public function checkDepends(): void{
+        $this->formapi = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
+        if(is_null($this->formapi)){
+            $this->getLogger()->error("SkyBlockUI Requires FormAPI To Work");
+            $this->getPluginLoader()->disablePlugin($this);
+        }
+        $this->sb = $this->getServer()->getPluginManager()->getPlugin("SkyBlock");
+        if(is_null($this->sb)){
+            $this->getLogger()->error("SkyBlockUI Requires SkyBlock To Work");
+            $this->getPluginLoader()->disablePlugin($this);
+        }
+    }
+
+    public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args):bool{
+        if($cmd->getName() == "skyblockui"){
+            if(!($sender instanceof Player)){
+                $sender->sendMessage("Manage your island easily!", false);
+                return true;
+            }
+            $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
+            $form = $api->createSimpleForm(function (Player $player, $data){
+                $result = $data;
+                if ($result == null) {
+                }
+                switch ($result) {
+                    case 0:
+                        break;
+                    case 1:
+                        $this->createForm($player);
+                        break;
+                    case 2:
+                        $this->getServer()->getCommandMap()->dispatch($player, "is go");
+                        break;
+                    case 3:
+                        $this->getServer()->getCommandMap()->dispatch($player, "is category");
+                        break;
+                    case 4:
+                        $this->getServer()->getCommandMap()->dispatch($player, "is blocks");
+                        break;
+                    case 5:
+                        $this->getServer()->getCommandMap()->dispatch($player, "is disband");
+                        break;
+                }
+            });
+            $form->setTitle($this->getConfig()->get("title"));
+            $form->setContent($this->getConfig()->get("content"));
+			$form->addButton($this->getConfig()->get("exit-button"));
+            $form->addButton($this->getConfig()->get("create-island"));
+			$form->addButton($this->getConfig()->get("join-island"));
+			$form->addButton($this->getConfig()->get("see-category"));
+			$form->addButton($this->getConfig()->get("see-blocks"));
+			$form->addButton($this->getConfig()->get("disband-island"));
+			$form->sendToPlayer($sender);
         }
         return true;
     }
-	
-	public function mainForm($player){
-		if($player instanceof Player){
-			$formapi = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-			$form = $formapi->createSimpleForm(function (Player $event, array $data){
-				$player = $event->getPlayer();
-				if(isset($data[0])){
-					switch($data[0]){							
-						case 0:
-						break;
-						
-						case 1:
-							$command = "sb create";
-							$this->getServer()->getCommandMap()->dispatch($player, $command);
-						break;
-              
-                        case 2:
-							$this->addForm($player);
-						break;
-							
-						case 3:
-							$this->removeForm($player);
-						break;
-							
-						case 4:
-							$this->homeForm($player);
-						break;
-							
-						case 5:
-							$this->warpForm($player);
-						break;
-							
-						case 6:
-							$this->giveForm($player);
-						break;
-							
-						case 7:
-							$command = "spawn";
-							$this->getServer()->getCommandMap()->dispatch($player, $command);
-							
-                        case 8:
-							$command = "is setspawn";
-							$this->getServer()->getCommandMap()->dispatch($player, $command);
-						break;
-					}
-				}
-			});
-			$form->setTitle("§l§b♦§a SkyBlock §b♦");
-            $form->addButton("§dcreate Island");			
-            $form->addButton("§7Add a helper");	
-			$form->addButton("§9Remove a helper ");
-			$form->addButton("§eBack to Your Island");
-			$form->addButton("§6Teleport to an Island");
-			$form->addButton("§2Give Island to a player");
-			$form->addButton("§cBack to spawn");
-			$form->addButton("§bset island spawn");
-			$form->sendToPlayer($player);
-		}
-	}
-	
-	public function addForm($player){
-		if($player instanceof Player){
-			$formapi = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-			$form = $formapi->createCustomForm(function (Player $event, array $data){
-				$player = $event->getPlayer();
-				$result = $data[0];
-				if($result != null){
-					$this->Ten = $data[0];
-					$this->getServer()->getCommandMap()->dispatch($player, "sb addhelper " . $this->Ten);
-				}
-			});
-			$form->setTitle("Thêm Người Vào Đảo Của Bạn");
-			$form->addInput("Nhập Tên Người Chơi Muốn Thêm");
-			$form->sendToPlayer($player);
-		}
-	}
-	
-	public function removeForm($player){
-		if($player instanceof Player){
-			$formapi = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-			$form = $formapi->createCustomForm(function (Player $event, array $data){
-				$player = $event->getPlayer();
-				$result = $data[0];
-				if($result != null){
-					$this->Ten = $data[0];
-					$this->getServer()->getCommandMap()->dispatch($player, "sb removehelper " . $this->Ten);
-				}
-			});
-			$form->setTitle("Xóa Người Ra Khỏi Đảo Của Bạn");
-			$form->addInput("Nhập Tên Người Chơi Muốn Xóa");
-			$form->sendToPlayer($player);
-		}
-	}
 
-	public function homeForm($player){
-		if($player instanceof Player){
-			$formapi = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-			$form = $formapi->createCustomForm(function (Player $event, array $data){
-				$player = $event->getPlayer();
-				$result = $data[0];
-				if($result != null){
-					$this->Home = $data[0];
-					$this->getServer()->getCommandMap()->dispatch($player, "sb home " . $this->Home);
-				}
-			});
-			$form->setTitle("Về Đảo Của Bạn");
-			$form->addInput("Nhập Số Đảo Bạn Muốn về ( ví dụ 1 , 2 ,3 ) ");
-			$form->sendToPlayer($player);
-		}
-	}
-		
-	public function warpForm($player){
-		if($player instanceof Player){
-			$formapi = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-			$form = $formapi->createCustomForm(function (Player $event, array $data){
-				$player = $event->getPlayer();
-				$result = $data[0];
-				if($result != null){
-					$this->idDao = $data[0];
-					$this->getServer()->getCommandMap()->dispatch($player, "sb warp " . $this->idDao);
-				}
-			});
-			$form->setTitle("Dịch Chuyển Đến Hòn Đảo Nào Đó");
-			$form->addInput("Nhập Theo Địa Chỉ X;Y");
-			$form->sendToPlayer($player);
-		}
-	}
-
-	public function giveForm($player){
-		if($player instanceof Player){
-			$formapi = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-			$form = $formapi->createCustomForm(function (Player $event, array $data){
-				$player = $event->getPlayer();
-				$result = $data[0];
-				if($result != null){
-					$this->Ten = $data[0];
-					$this->getServer()->getCommandMap()->dispatch($player, "sb give " . $this->Ten);
-				}
-			});
-			$form->setTitle("Chuyển Quyền Sở Hữu Đảo");
-			$form->addInput("Nhập Tên Người Muốn Chuyển");
-			$form->sendToPlayer($player);
-		}
-	}
+    public function createForm(CommandSender $sender):bool{
+        if(!($sender instanceof Player)){
+                $sender->sendMessage("Manage your island easily!", false);
+                return true;
+            }
+        $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
+            $form = $api->createSimpleForm(function (Player $player, $data){
+                $result = $data;
+                if ($result == null) {
+                }
+                switch ($result) {
+                    case 0:
+                        break;
+                    case 1:
+                        $this->getServer()->getCommandMap()->dispatch($player, "is create basic");
+                        break;
+                    case 2:
+                        $this->getServer()->getCommandMap()->dispatch($player, "is create lost");
+                        break;
+                    case 3:
+                        $this->getServer()->getCommandMap()->dispatch($player, "is create op");
+                        break;
+                    case 4:
+                        $this->getServer()->getCommandMap()->dispatch($player, "is create palm");
+                        break;
+                    case 5:
+                        $this->getServer()->getCommandMap()->dispatch($player, "is create shelly");
+                        break;
+                }
+            });
+            $form->setTitle($this->getConfig()->get("title"));
+            $form->setContent($this->getConfig()->get("create-content"));
+            $form->addButton($this->getConfig()->get("exit-button"));
+            $form->addButton($this->getConfig()->get("basic"), 0, "textures/blocks/grass_side_carried");
+            $form->addButton($this->getConfig()->get("lost"), 0, "textures/blocks/end_bricks");
+            $form->addButton($this->getConfig()->get("op"), 0, "textures/blocks/gold_block");
+            $form->addButton($this->getConfig()->get("palm"), 0, "textures/blocks/log_jungle");
+            $form->addButton($this->getConfig()->get("shelly"), 0, "textures/blocks/sapling_oak");
+            $form->sendToPlayer($sender);
+            return true;
+    }
 }
