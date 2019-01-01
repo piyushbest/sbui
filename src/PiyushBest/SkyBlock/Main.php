@@ -16,7 +16,7 @@ class Main extends PluginBase implements Listener{
 
     public function onEnable(): void{
         $this->getServer()->getPluginManager()->registerEvents(($this), $this);
-        $this->getLogger()->info("Plugin Enabled By LightSwagitzHD");
+        $this->getLogger()->info("Plugin Enabled By piyushbest");
         $this->getLogger()->info("Edit the config.yml to the plugin_data");
     }
 
@@ -38,7 +38,7 @@ class Main extends PluginBase implements Listener{
     }
 
     public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args):bool{
-        if($cmd->getName() == "skyblockui"){
+        if($cmd->getName() == "sbui"){
             if(!($sender instanceof Player)){
                 $sender->sendMessage("Manage your island easily!", false);
                 return true;
