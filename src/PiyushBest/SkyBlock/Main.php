@@ -1,5 +1,5 @@
 <?php
-namespace SkyBlockUI;
+namespace sbui;
 use pocketmine\Server;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
@@ -21,7 +21,7 @@ class Main extends PluginBase implements Listener{
     }
 
     public function onDisable(): void{
-        $this->getLogger()->info("Plugin Disabled By LightSwagitzHD");
+        $this->getLogger()->info("Plugin Disabled By piyushbest");
     }
 
     public function checkDepends(): void{
