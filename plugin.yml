@@ -5,5 +5,5 @@ api: 3.0.0
 author: piyushbest
 
 commands:
- sbui:
+ skyblockui:
   description: "Open SkyBlock MENU"
