@@ -1,5 +1,5 @@
 <?php
-namespace sbui;
+namespace SkyBlockUI;
 use pocketmine\Server;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
@@ -33,7 +33,7 @@ class Main extends PluginBase implements Listener{
         }
     }
     public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args):bool{
-        if($cmd->getName() == "sbui"){
+        if($cmd->getName() == "skyblockui"){
             if(!($sender instanceof Player)){
                 $sender->sendMessage("Manage your island easily!", false);
                 return true;
