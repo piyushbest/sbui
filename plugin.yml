@@ -1,13 +1,9 @@
-name: SkyBlockGUI
+name: sbui
 main: PiyushBest\SkyBlock\Main
 version: 1.0.2
 api: 3.0.0
-author: CrazyTeamVN
+author: piyushbest
 
 commands:
  sbui:
   description: "Open SkyBlock MENU"
-  is:
-  description: "open skyblock menu"
-  sb:
-  description: "open skyblock menu"
